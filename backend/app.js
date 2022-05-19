@@ -1,6 +1,11 @@
+const { json } = require('express');
+
 const express = require('express');
 
 const mongoose = require('mongoose');
+
+const stuffRoutes = require('./routes/stuff');
+const userRoutes = require('./routes/user');
 
 const app = express();
 mongoose.connect('mongodb+srv://Arnaud2935:Bravo5678@cluster0.h9r2j.mongodb.net/?retryWrites=true&w=majority',
@@ -13,8 +18,22 @@ mongoose.connect('mongodb+srv://Arnaud2935:Bravo5678@cluster0.h9r2j.mongodb.net/
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+    next();
+});
+
 app.use((req, res) => {
     res.json({ message: 'Votre requête a bien été reçue !' });
 });
+
+// app.post('/api/auth/signup', (req, res, next) => {
+
+// })
+
+app.use('/api/stuff', stuffRoutes);
+app.use('/api/auth', userRoutes);
 
 module.exports = app;
