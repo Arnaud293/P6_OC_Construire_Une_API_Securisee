@@ -4,10 +4,13 @@ const express = require('express');
 
 const mongoose = require('mongoose');
 
-const stuffRoutes = require('./routes/stuff');
+const path = require('path');
+
+const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
 const app = express();
+
 mongoose.connect('mongodb+srv://Arnaud2935:Bravo5678@cluster0.h9r2j.mongodb.net/?retryWrites=true&w=majority',
     {
         useNewUrlParser: true,
@@ -25,15 +28,13 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((req, res) => {
-    res.json({ message: 'Votre requête a bien été reçue !' });
-});
+// app.use((req, res) => {
+//     res.json({ message: 'Votre requête a bien été reçue !' });
+// });
 
-// app.post('/api/auth/signup', (req, res, next) => {
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
-// })
-
-app.use('/api/stuff', stuffRoutes);
+app.use('/api/sauces', sauceRoutes);
 app.use('/api/auth', userRoutes);
 
 module.exports = app;
