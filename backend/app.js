@@ -10,10 +10,15 @@ const userRoutes = require('./routes/user');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 
+const limiter = require('./middleware/rateLimiter');
+const { default: rateLimit } = require('express-rate-limit');
+
 
 const app = express();
 
 app.use(helmet());
+
+app.use(rateLimit);
 
 
 
