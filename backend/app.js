@@ -1,13 +1,13 @@
 const { json } = require('express');
-
 const express = require('express');
-
 const mongoose = require('mongoose');
-
 const path = require('path');
 
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
+
+// Security 
+const helmet = require('helmet');
 
 const app = express();
 
