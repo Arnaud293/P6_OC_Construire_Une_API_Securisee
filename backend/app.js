@@ -8,8 +8,18 @@ const userRoutes = require('./routes/user');
 
 // Security 
 const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+
 
 const app = express();
+
+app.use(helmet());
+//  XSS protection
+app.use(helmet.xssFilter());
+// anti-click jacking 
+app.use(helmet.frameguard({ action: 'deny' }));
+
+
 
 mongoose.connect('mongodb+srv://Arnaud2935:Bravo5678@cluster0.h9r2j.mongodb.net/?retryWrites=true&w=majority',
     {
