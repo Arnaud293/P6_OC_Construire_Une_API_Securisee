@@ -14,6 +14,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const app = express();
 
 app.use(helmet());
+app.use(helmet({ crossOriginRessourcesPolicy: false }))
 //  XSS protection
 app.use(helmet.xssFilter());
 // anti-click jacking 
