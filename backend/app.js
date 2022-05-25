@@ -7,7 +7,7 @@ const path = require('path');
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
-// Security 
+// Security add-on ---------------------------------
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 
@@ -21,16 +21,19 @@ const app = express();
 
 app.use(helmet());
 
-app.use(rateLimit);
+// app.use(rateLimit);
 
 app.use(mongoSanitize());
 
-const DB_ID = process.env.DB_ID;
-const DB_ADDRESS = process.env.DB_ADDRESS;
-const DB_MDP = process.env.DB_MDP;
+const DB = {
+    DB_ID: process.env.DB_ID,
+    DB_ADDRESS: process.env.DB_ADDRESS,
+    DB_MDP: process.env.DB_MDP,
+}
 
+// -------------------------------------------------
 
-mongoose.connect(`mongodb+srv://${DB_ID}:${DB_MDP}@${DB_ADDRESS}`,
+mongoose.connect(`mongodb+srv://${DB.DB_ID}:${DB.DB_MDP}@${DB.DB_ADDRESS}`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
