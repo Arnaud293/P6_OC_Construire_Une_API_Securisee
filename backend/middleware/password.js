@@ -1,3 +1,4 @@
+const { default: mongoose } = require("mongoose");
 const PasswordValidator = require("password-validator");
 
 const passwordSchema = new PasswordValidator();
@@ -11,14 +12,15 @@ passwordSchema
     .has().not().spaces()                           // Should not have spaces
     .is().not().oneOf(['Passw0rd', 'Password123']); // Blacklist these values
 
+// module.exports = mongoose.model('password', passwordSchema);
+
+
 module.exports = (req, res, next) => {
     if (passwordSchema.validate(req.body.password)) {
         next();
     }
     else {
-        console.log('Votre mot de passe doit contenir entre 8 et 16 caractères et contenir au moins 2 chiffres');
-        return res
-            .status(400)
-            .json({ error: `${(passwordSchema.validate(req.body.password, { list: true }))};` })
+        return res.writeHead(400, 'Votre mot de passe doit contenir entre 8 et 16 caractères et 2 chiffres'),
+            res.end('Votre mot de passe doit contenir entre 8 et 16 caractères et 2 chiffres')
     }
 }
