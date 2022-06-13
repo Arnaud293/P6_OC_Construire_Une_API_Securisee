@@ -1,23 +1,28 @@
-const express = require('express');
+const express = require("express");
+
+// Intégration du router
 
 const router = express.Router();
 
-const sauceController = require('../controllers/sauce');
-const auth = require('../middleware/auth');
-const multer = require('../middleware/multer-config')
+// Déclaration des constantes
 
-router.post('/', auth, multer, sauceController.createSauce);
+const sauceController = require("../controllers/sauce");
+const auth = require("../middleware/auth");
+const checkUser = require("../middleware/checkUser");
+const multer = require("../middleware/multer-config");
 
-router.post('/:id/like', auth, sauceController.evaluateSauce);
+// CRUD
 
-router.put('/:id', auth, multer, sauceController.modifySauce);
+router.post("/", auth, multer, sauceController.createSauce);
 
-router.delete('/:id', auth, sauceController.deleteSauce);
+router.post("/:id/like", auth, sauceController.evaluateSauce);
 
-router.get('/:id', auth, sauceController.getOneSauce);
+router.put("/:id", checkUser, multer, sauceController.modifySauce);
 
-router.get('/', auth, sauceController.getSauces);
+router.delete("/:id", checkUser, sauceController.deleteSauce);
 
+router.get("/:id", auth, sauceController.getOneSauce);
 
+router.get("/", auth, sauceController.getSauces);
 
 module.exports = router;
